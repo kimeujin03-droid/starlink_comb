@@ -1,0 +1,17 @@
+sample_id,file,pol,band_class,benchmark_split,annotation_label,artifact_type,notes
+zen.LST.baseline.0_0.sum.uvh5|xx|high_band,zen.LST.baseline.0_0.sum.uvh5,xx,high_band,positive_set,positive,,clear repeated 2.32 MHz comb
+zen.LST.baseline.0_0.sum.uvh5|yy|high_band,zen.LST.baseline.0_0.sum.uvh5,yy,high_band,positive_set,positive,,clear repeated 2.32 MHz comb
+zen.LST.baseline.0_1.sum.uvh5|xx|high_band,zen.LST.baseline.0_1.sum.uvh5,xx,high_band,positive_set,ambiguous,,periodic comb-like but weaker envelope
+zen.LST.baseline.0_1.sum.uvh5|yy|high_band,zen.LST.baseline.0_1.sum.uvh5,yy,high_band,positive_set,positive,,stable comb with strong recurrence
+zen.LST.baseline.0_2.sum.uvh5|xx|low_band,zen.LST.baseline.0_2.sum.uvh5,xx,low_band,hard_negative_set,negative,instrumental_comb,periodic-looking but low-band unstable
+zen.LST.baseline.0_2.sum.uvh5|yy|low_band,zen.LST.baseline.0_2.sum.uvh5,yy,low_band,hard_negative_set,negative,channelization_imprint,looks comb-like but likely processing imprint
+zen.LST.baseline.0_3.sum.uvh5|xx|low_band,zen.LST.baseline.0_3.sum.uvh5,xx,low_band,hard_negative_set,ambiguous,,periodic structure but uncertain origin
+zen.LST.baseline.0_3.sum.uvh5|yy|low_band,zen.LST.baseline.0_3.sum.uvh5,yy,low_band,hard_negative_set,negative,edge_channel_artifact,edge-dominated structure
+zen.LST.baseline.0_4.sum.uvh5|xx|high_band,zen.LST.baseline.0_4.sum.uvh5,xx,high_band,positive_set,positive,,dominant 2.32 MHz family
+zen.LST.baseline.0_4.sum.uvh5|yy|high_band,zen.LST.baseline.0_4.sum.uvh5,yy,high_band,positive_set,positive,,dominant 2.32 MHz family
+zen.LST.baseline.0_5.sum.uvh5|xx|low_band,zen.LST.baseline.0_5.sum.uvh5,xx,low_band,null_set,negative,,no obvious comb
+zen.LST.baseline.0_5.sum.uvh5|yy|low_band,zen.LST.baseline.0_5.sum.uvh5,yy,low_band,null_set,negative,,no obvious comb
+zen.LST.baseline.0_6.sum.uvh5|xx|high_band,zen.LST.baseline.0_6.sum.uvh5,xx,high_band,positive_set,positive,,stable repeated comb
+zen.LST.baseline.0_6.sum.uvh5|yy|high_band,zen.LST.baseline.0_6.sum.uvh5,yy,high_band,positive_set,positive,,stable repeated comb
+zen.LST.baseline.0_7.sum.uvh5|xx|low_band,zen.LST.baseline.0_7.sum.uvh5,xx,low_band,hard_negative_set,ambiguous,,irregular low-band periodicity
+zen.LST.baseline.0_7.sum.uvh5|yy|high_band,zen.LST.baseline.0_7.sum.uvh5,yy,high_band,positive_set,positive,,stable high-band comb
