@@ -1,0 +1,16 @@
+{
+  "multi_window_enabled": true,
+  "window_hours": 1.0,
+  "min_alt_deg": 10.0,
+  "n_windows": 1,
+  "n_windows_with_emitters": 1,
+  "outputs": [
+    "tables/multi_window_summary.csv",
+    "tables/pairwise_delay_coherence.csv",
+    "tables/per_satellite_window_summary.csv",
+    "tables/multi_window_tracks.csv",
+    "figures/fig04_multi_window_coherence_amplification.png",
+    "figures/fig05_pairwise_delay_separation_vs_coherence.png"
+  ],
+  "interpretation": "ratio > 1 indicates complex-sum delay-excess power above incoherent sum over individual emitters. Compare observed amplification against phase-randomized null columns before making a coherent-overlap claim."
+}

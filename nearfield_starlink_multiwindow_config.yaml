@@ -1,0 +1,138 @@
+experiment:
+  name: nearfield_starlink_literature_uemr_on_external_background_v3
+  output_dir: nearfield_starlink_literature_uemr_outputs
+  random_seed: 11
+
+# REQUIRED: generated externally by hera_sim / pyuvsim / matvis / real UVH5 export.
+# NPZ fields: vis_tf, freqs_hz, times_jd, baseline_enu_m
+# Optional: weights_tf or flags_tf, ant1_enu_m, ant2_enu_m, eor_tf
+background:
+  path: null
+
+uvh5_selection:
+  ant1: 0
+  ant2: 5
+  pol: ee   # ee≈XX, nn≈YY for scalar anti-correlated handling
+
+site:
+  lat_deg: -30.7215
+  lon_deg: 21.4283
+  elev_m: 1050.0
+
+time_frequency:
+  channel_width_hz: 122070.3125
+
+beam:
+  mode: polybeam_fagnoni19
+
+starlink:
+  tle_path: data/raw/tle/starlink_2022-10-08_2022-10-10_gp_history.tle
+  satellite_name: null
+  peak_alt_min_deg: 35.0
+  peak_alt_max_deg: 65.0
+  max_scan_satellites: 3000
+
+  # Literature-template normalization: this is the reference flux-density scale before
+  # range/beam/smearing. The template itself encodes relative measured structure.
+  reference_flux_jy: 100.0
+  reference_range_km: 550.0
+  range_attenuation_mode: flux_density_1_over_r2
+  spectral_index: 0.0
+
+  # Diagonal Jones + source coherency projection. Supported modes:
+  # jones_unpolarized, jones_anti_correlated, scalar, anti_correlated_xx_yy.
+  polarization:
+    mode: jones_anti_correlated
+    mean: 1.0
+    contrast: 0.35
+    phase_rad: 0.0
+
+  emission_model:
+    # Paper-grade preferred options:
+    # 1) spectral_template_csv: measured/literature-derived CSV with freq_hz/freq_mhz and flux_jy/relative_power
+    # 2) literature_model: parameterized from Di Vruno 2023 and/or Bassa 2024 measured values
+    spectral_template_csv: null
+    time_template_csv: null
+    literature_model: bassa2024_v2mini_lofar
+    # Other choices:
+    # literature_model: di_vruno2023_gen1_lofar
+    # literature_model: hybrid_gen1_v2mini
+
+    # Di Vruno et al. 2023 LOFAR Gen-1-ish measured UEMR parameters.
+    di_vruno_broadband_flux_jy: 3.0       # within reported 0.1-10 Jy broadband range
+    di_vruno_narrowband_peak_flux_jy: 100.0 # within reported 10-500 Jy narrowband range
+    di_vruno_narrowband_lines_mhz: [125.0, 135.0, 143.05, 150.0, 175.0]
+    di_vruno_line_width_hz: 12200.0       # reported <12.2 kHz
+
+    # Bassa et al. 2024 v2-Mini LOFAR measured UEMR parameters.
+    bassa_lowband_flux_jy: 200.0          # within reported 15-1300 Jy in 56-66 MHz
+    bassa_hba_window_flux_jy: 30.0        # within reported 2-100 Jy in 8 MHz windows near 120/161 MHz
+    include_bassa_comb_157_165: true
+    bassa_v2mini_comb_spacings_khz: [48.8, 65.0, 97.5]
+    bassa_comb_peak_flux_jy: 25.0
+    bassa_comb_tooth_width_hz: 8000.0
+
+    # Optional v1.5 50 kHz comb in 157-165 MHz.
+    include_v15_comb_157_165: false
+    v15_comb_peak_flux_jy: 25.0
+    v15_comb_tooth_width_hz: 8000.0
+
+    # If channel width is much larger than intrinsic line width, line peak is diluted
+    # by line_width/channel_width as a channel-averaged flux density.
+    dilute_subchannel_lines: true
+    max_comb_teeth: 512
+
+    # Controlled random Gaussian-comb fallback remains disabled by default.
+    allow_controlled_hypothesis: false
+
+  bright_mask_threshold_fraction: 0.03
+  loose_mask_threshold_fraction: 0.003
+
+pipeline:
+  # No redcal. No flag-value replacement.
+  delay_filter:
+    enabled: true
+    taper: blackman_harris
+    buffer_ns: 100.0
+    nw: 2.5
+  fr_zero_notch:
+    enabled: true
+    width_mhz: 0.03
+  mainlobe_fr_filter:
+    enabled: false
+    mode: remove_mainlobe
+    width_mhz: 0.8
+
+metrics:
+  delay_excess:
+    taper: blackman_harris
+    buffer_ns: 100.0
+    nw: 2.5
+  phase_randomized_null:
+    n_trials: 256
+  pairwise_delay_overlap:
+    # Default is one FFT delay bin if null.
+    delay_bin_width_ns: null
+  local_delay_budget:
+    top_percentile: 95.0
+  subspace_rank: 5
+
+# Multi-satellite coherent amplification analysis.
+# This mode splits the provided external background time grid into fixed windows,
+# enumerates all TLE objects above min_alt_deg in each window, complex-sums their
+# near-field UEMR visibilities, and compares delay-excess power of |ΣV_k| against
+# the incoherent expectation ΣP(V_k).
+multi_window:
+  enabled: true
+  window_hours: 1.0
+  start_window: 0
+  min_alt_deg: 10.0
+  peak_alt_min_deg: 35.0
+  peak_alt_max_deg: 70.0
+  cap_selection_method: predicted_peak_apparent_flux
+  min_samples_above_alt: 2
+  max_scan_satellites: 5000
+  max_sats_per_window: 50   # set null for exhaustive; use finite value for first runs
+  max_windows: 1            # run one 1-hour window per job; increment start_window for the next chunk
+  phase_randomized_null_trials: 256
+  save_window_arrays: false

@@ -1,0 +1,97 @@
+experiment:
+  name: nearfield_starlink_literature_uemr_on_external_background_v3
+  output_dir: nearfield_starlink_literature_uemr_outputs
+  random_seed: 11
+background:
+  path: paper2/paper2-1/background_0_5_w001_1h.npz
+uvh5_selection:
+  ant1: 0
+  ant2: 5
+  pol: ee
+site:
+  lat_deg: -30.7215
+  lon_deg: 21.4283
+  elev_m: 1050.0
+time_frequency:
+  channel_width_hz: 122070.3125
+beam:
+  mode: polybeam_fagnoni19
+starlink:
+  tle_path: data/raw/tle/starlink_2022-10-08_2022-10-10_gp_history.tle
+  satellite_name: null
+  peak_alt_min_deg: 35.0
+  peak_alt_max_deg: 65.0
+  max_scan_satellites: 3000
+  reference_flux_jy: 100.0
+  reference_range_km: 550.0
+  range_attenuation_mode: flux_density_1_over_r2
+  spectral_index: 0.0
+  polarization:
+    mode: anti_correlated_xx_yy
+    mean: 1.0
+    contrast: 0.35
+    phase_rad: 0.0
+  emission_model:
+    spectral_template_csv: null
+    time_template_csv: null
+    literature_model: bassa2024_v2mini_lofar
+    di_vruno_broadband_flux_jy: 3.0
+    di_vruno_narrowband_peak_flux_jy: 100.0
+    di_vruno_narrowband_lines_mhz:
+    - 125.0
+    - 135.0
+    - 143.05
+    - 150.0
+    - 175.0
+    di_vruno_line_width_hz: 12200.0
+    bassa_lowband_flux_jy: 200.0
+    bassa_hba_window_flux_jy: 30.0
+    include_bassa_comb_157_165: true
+    bassa_v2mini_comb_spacings_khz:
+    - 48.8
+    - 65.0
+    - 97.5
+    bassa_comb_peak_flux_jy: 25.0
+    bassa_comb_tooth_width_hz: 8000.0
+    include_v15_comb_157_165: false
+    v15_comb_peak_flux_jy: 25.0
+    v15_comb_tooth_width_hz: 8000.0
+    dilute_subchannel_lines: true
+    max_comb_teeth: 512
+    allow_controlled_hypothesis: false
+  bright_mask_threshold_fraction: 0.03
+  loose_mask_threshold_fraction: 0.003
+pipeline:
+  delay_filter:
+    enabled: true
+    taper: blackman_harris
+    buffer_ns: 100.0
+    nw: 2.5
+  fr_zero_notch:
+    enabled: true
+    width_mhz: 0.03
+  mainlobe_fr_filter:
+    enabled: false
+    mode: remove_mainlobe
+    width_mhz: 0.8
+metrics:
+  delay_excess:
+    taper: blackman_harris
+    buffer_ns: 100.0
+    nw: 2.5
+  phase_randomized_null:
+    n_trials: 256
+  subspace_rank: 5
+multi_window:
+  enabled: true
+  window_hours: 1.0
+  start_window: 0
+  min_alt_deg: 10.0
+  peak_alt_min_deg: 35.0
+  peak_alt_max_deg: 70.0
+  min_samples_above_alt: 2
+  max_scan_satellites: 5000
+  max_sats_per_window: 50
+  max_windows: 1
+  phase_randomized_null_trials: 256
+  save_window_arrays: false

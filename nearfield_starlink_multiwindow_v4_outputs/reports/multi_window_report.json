@@ -1,0 +1,15 @@
+{
+  "multi_window_enabled": true,
+  "window_hours": 1.0,
+  "min_alt_deg": 10.0,
+  "n_windows": 11,
+  "n_windows_with_emitters": 11,
+  "outputs": [
+    "tables/multi_window_summary.csv",
+    "tables/pairwise_delay_coherence.csv",
+    "tables/per_satellite_window_summary.csv",
+    "tables/multi_window_tracks.csv",
+    "figures/fig04_multi_window_coherence_amplification.png"
+  ],
+  "interpretation": "ratio > 1 indicates complex-sum delay-excess power above incoherent sum over individual emitters."
+}

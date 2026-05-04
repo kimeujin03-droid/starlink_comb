@@ -1,7 +1,0 @@
-metric,condition,value
-mean_decision_time_sec,A,
-mean_decision_time_sec,B,
-mean_reviewer_confidence,A,
-mean_reviewer_confidence,B,
-mean_agreement_rate,A,
-mean_agreement_rate,B,
